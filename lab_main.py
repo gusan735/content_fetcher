@@ -89,20 +89,45 @@ def print_random_tweets(n_tweets, link_tweets_with_texts):
         i += 1
 
 def add_texts_to_links(links_with_headers, link_tweets):
+    print("HEJ")
     #Create a link dict with texts added for each link:
     link_outputs = {}
     for obj1 in links_with_headers:
         header_link = obj1["link"]
         header= obj1["header"]
+        count = obj1["count"]
         texts = []
         link_outputs[header_link] = {}
         for obj2 in link_tweets:
             tweet_link = obj2["Link"]
             tweet_text = obj2["Tweet_text"]
-            if header_link == tweet_link:
-                texts.append(tweet_text)
+            altered_text = ' '.join(word for word in tweet_text.split(' ') if not word.startswith('https://t.co'))
+            if header_link == tweet_link and header not in tweet_text:
+                texts.append(altered_text)
         link_outputs[header_link]["texts"] = texts
         link_outputs[header_link]["header"] = header
+        link_outputs[header_link]["count"] = count
+    return link_outputs
+
+def add_texts_to_links_2(link_counts, link_tweets):
+    #Create a link dict with texts added for each link:
+    link_outputs = {}
+    for obj1 in link_counts:
+        header_link = obj1["Link"]
+        header= obj1["header"]
+        count = obj1["Count"]
+        texts = []
+        link_outputs[header_link] = {}
+        for obj2 in link_tweets:
+            tweet_link = obj2["Link"]
+            tweet_text = obj2["Tweet_text"]
+            altered_text = ' '.join(word for word in tweet_text.split(' ') if not word.startswith('http'))
+            altered_text = altered_text.split("http")[0]
+            if header_link == tweet_link and header not in altered_text and len(altered_text) > 2:
+                texts.append(altered_text)
+        link_outputs[header_link]["texts"] = texts
+        link_outputs[header_link]["header"] = header
+        link_outputs[header_link]["count"] = count
     return link_outputs
 
 def fetch_links_to_db():
@@ -115,17 +140,44 @@ def fetch_links_to_db():
 
 def get_top_links_with_headers():
    # link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=10)
-    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=20)
+    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=N_LINKS_TO_PRINT)
     link_counts_with_headers = add_headers_to_links(link_counts, N_LINKS_TO_PRINT)
-    
     return link_counts_with_headers
+
+def add_headers_to_db(links_with_headers):
+    for link in links_with_headers:
+        db_broker.add_headers_to_news_tweet(link)
+
+def get_top_links_with_random_texts(n_tweets):
+    link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=N_LINKS_TO_PRINT)
+    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=N_LINKS_TO_PRINT)
+    links_with_texts = add_texts_to_links_2(link_counts, link_tweets)
+
+    output = []
+
+    for link in links_with_texts:
+        sample_size = n_tweets
+        if (sample_size > len(links_with_texts[link]["texts"])):
+            sample_size = len(links_with_texts[link]["texts"])
+        new_dict = {}
+        new_dict["link"] = link
+        new_dict["header"] = links_with_texts[link]["header"]
+        new_dict["texts"] = []
+        new_dict["count"] = links_with_texts[link]["count"]
+        random_tweets = random.sample(links_with_texts[link]["texts"], sample_size)
+        new_dict["texts"] = random_tweets
+        output.append(new_dict)
+    return output
+
 def main():
     #TODO: Clean this shit up...
-    #fetch_links_to_db()
-    link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=20)
-    top_tweets_with_headers = get_top_links_with_headers()
-    link_counts_with_headers_and_texts = add_texts_to_links(top_tweets_with_headers, link_tweets)
-    print_links(top_tweets_with_headers)
+    fetch_links_to_db()
+    links_with_headers = get_top_links_with_headers()
+    add_headers_to_db(links_with_headers)
+    #link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=20)
+    #top_tweets_with_headers = get_top_links_with_headers()
+    #link_counts_with_headers_and_texts = add_texts_to_links(top_tweets_with_headers, link_tweets)
+    #print_links(top_tweets_with_headers)
    # print_random_tweets(10, link_counts_with_headers_and_texts)
     
 

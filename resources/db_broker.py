@@ -58,17 +58,51 @@ def create_news_tweet(tweet_id, news_tweet):
     i = 1
     for url in urls:
         conn = create_connection(db_path)
-        query_to_add = (tweet_id + "_"+str(i), tweet_text, author_id, created_at, url);
+        fields_to_add = (tweet_id + "_"+str(i), tweet_text, author_id, created_at, url);
         sql = ''' INSERT INTO news_tweets(Id,Tweet_text,Author_id,Tweet_time,Link)
                 VALUES(?,?,?,?,?) '''
         i+=1
         cur = conn.cursor()
         try:
-            cur.execute(sql, query_to_add)
+            cur.execute(sql, fields_to_add)
         except sqlite3.IntegrityError:
             return False
         conn.commit()
     return True
+
+
+def add_headers_to_news_tweet(link_with_header):
+    header = link_with_header["header"]
+    link = link_with_header["link"]
+    fields_to_add = (header, link);
+    sql = """UPDATE news_tweets
+            SET header = ?
+            WHERE Link = ?
+            """
+
+    conn = create_connection(db_path)
+    cur = conn.cursor()
+    cur.execute(sql, fields_to_add)
+    conn.commit()
+
+"""
+    output = []
+    counter = 1
+    for obj in list(sorted_news_links):
+        link = obj["Link"]
+        count = obj["Count"]
+        if (counter > amount):
+            break
+        header = web_scraper.get_article_heading(link)
+        link_count_with_header = {}
+        link_count_with_header["header"] = header
+        link_count_with_header["link"] = link
+        link_count_with_header["count"] = count
+        output.append(link_count_with_header)
+        counter+=1
+    return output
+"""
+
 
 #Fetches the tweet objects that includes the mest popular news from hours_back in time.
 #Does not allow duplicate author_id and link.
@@ -93,7 +127,7 @@ def fetch_top_news_tweets_from_db(hours_back, amount):
 #Fetches the tweet counts for the most popular news from hours_back in time.
 #Does not allow duplicate author_id and link.
 def fetch_top_news_count_from_db(hours_back, amount):
-    sql = ("""SELECT Link, COUNT(DISTINCT Author_id) as Count
+    sql = ("""SELECT Link, header, COUNT(DISTINCT Author_id) as Count
     FROM news_tweets
     WHERE Tweet_time > datetime('now', '-{} hour')
     GROUP BY Link
