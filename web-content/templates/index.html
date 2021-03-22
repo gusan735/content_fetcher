@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Hetaste nyheterna på Twitter {% endblock %}</h1>
+    <br>
+    {% for link in posts %}
+        <h3>{{loop.index}}. <a href ={{ link['link'] }}> {{ link['header'] }}</a> </h3>
+    <span class="badge badge-primary">{{ link['link'] }}</span>
+    <hr>
+{% endfor %}
+{% endblock %}

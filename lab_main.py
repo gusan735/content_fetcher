@@ -112,17 +112,21 @@ def fetch_links_to_db():
     sorted_link_counts= {k: v for k, v in sorted(link_counts.items(), key=lambda item: item[1], reverse=True)}
     add_links_to_db(N_LINKS_TO_DB, news_links, sorted_link_counts)
     print("LINKS ADDED TO DB")
+
+def get_top_links_with_headers():
+   # link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=10)
+    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=20)
+    link_counts_with_headers = add_headers_to_links(link_counts, N_LINKS_TO_PRINT)
     
-    
+    return link_counts_with_headers
 def main():
     #TODO: Clean this shit up...
     #fetch_links_to_db()
-    link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=10)
-    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=10)
-    link_counts_with_headers = add_headers_to_links(link_counts, N_LINKS_TO_PRINT)
-    link_counts_with_headers_and_texts = add_texts_to_links(link_counts_with_headers, link_tweets)
-    print_links(link_counts_with_headers)
-    print_random_tweets(10, link_counts_with_headers_and_texts)
+    link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=20)
+    top_tweets_with_headers = get_top_links_with_headers()
+    link_counts_with_headers_and_texts = add_texts_to_links(top_tweets_with_headers, link_tweets)
+    print_links(top_tweets_with_headers)
+   # print_random_tweets(10, link_counts_with_headers_and_texts)
     
 
 if __name__ == "__main__":
