@@ -5,7 +5,18 @@
     <br>
     {% for link in posts %}
         <h3>{{loop.index}}. <a href ={{ link['link'] }}> {{ link['header'] }}</a> </h3>
-    <span class="badge badge-primary">{{ link['link'] }}</span>
+        <span class="badge badge-primary">{{ link['link'] }}</span>
+        <br>
+        <br>
+        <button data-toggle="collapse" data-target="#texts{{loop.index}}">Visa random tweets</button>
+        <br>
+        <div id="texts{{loop.index}}" class="collapse">
+            {%for text in link['texts']%}
+            <a>"{{text}}"</a>
+            <br>
+            <br>
+            {% endfor %}
+        </div>
     <hr>
 {% endfor %}
 {% endblock %}

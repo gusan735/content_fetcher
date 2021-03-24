@@ -1,5 +1,7 @@
 import requests
 import os
+import time
+import schedule
 import configparser
 import json
 import random
@@ -88,26 +90,6 @@ def print_random_tweets(n_tweets, link_tweets_with_texts):
                 print(tweet)
         i += 1
 
-def add_texts_to_links(links_with_headers, link_tweets):
-    print("HEJ")
-    #Create a link dict with texts added for each link:
-    link_outputs = {}
-    for obj1 in links_with_headers:
-        header_link = obj1["link"]
-        header= obj1["header"]
-        count = obj1["count"]
-        texts = []
-        link_outputs[header_link] = {}
-        for obj2 in link_tweets:
-            tweet_link = obj2["Link"]
-            tweet_text = obj2["Tweet_text"]
-            altered_text = ' '.join(word for word in tweet_text.split(' ') if not word.startswith('https://t.co'))
-            if header_link == tweet_link and header not in tweet_text:
-                texts.append(altered_text)
-        link_outputs[header_link]["texts"] = texts
-        link_outputs[header_link]["header"] = header
-        link_outputs[header_link]["count"] = count
-    return link_outputs
 
 def add_texts_to_links_2(link_counts, link_tweets):
     #Create a link dict with texts added for each link:
@@ -121,10 +103,12 @@ def add_texts_to_links_2(link_counts, link_tweets):
         for obj2 in link_tweets:
             tweet_link = obj2["Link"]
             tweet_text = obj2["Tweet_text"]
-            altered_text = ' '.join(word for word in tweet_text.split(' ') if not word.startswith('http'))
-            altered_text = altered_text.split("http")[0]
-            if header_link == tweet_link and header not in altered_text and len(altered_text) > 2:
-                texts.append(altered_text)
+            if header_link == tweet_link:
+                tweet_link = obj2["Link"]
+                tweet_text = obj2["Tweet_text"]
+                altered_text = ' '.join(word for word in tweet_text.split(' ') if not word.startswith('http')).split("http")[0]
+                if header not in altered_text and len(altered_text) > 2:
+                    texts.append(altered_text)
         link_outputs[header_link]["texts"] = texts
         link_outputs[header_link]["header"] = header
         link_outputs[header_link]["count"] = count
@@ -136,7 +120,9 @@ def fetch_links_to_db():
     link_counts = count_links(news_links)
     sorted_link_counts= {k: v for k, v in sorted(link_counts.items(), key=lambda item: item[1], reverse=True)}
     add_links_to_db(N_LINKS_TO_DB, news_links, sorted_link_counts)
-    print("LINKS ADDED TO DB")
+    headers = get_top_links_with_headers()
+    add_headers_to_db(headers)
+    print("LINKS ADDED TO DB WITH HEADERS")
 
 def get_top_links_with_headers():
    # link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=10)
@@ -166,14 +152,15 @@ def get_top_links_with_random_texts(n_tweets):
         new_dict["count"] = links_with_texts[link]["count"]
         random_tweets = random.sample(links_with_texts[link]["texts"], sample_size)
         new_dict["texts"] = random_tweets
-        output.append(new_dict)
+        output.append(new_dict) 
     return output
 
 def main():
     #TODO: Clean this shit up...
+    #schedule.every(20).minutes.do(fetch_links_to_db)
+    #while True:
+    #    schedule.run_pending()
     fetch_links_to_db()
-    links_with_headers = get_top_links_with_headers()
-    add_headers_to_db(links_with_headers)
     #link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=20)
     #top_tweets_with_headers = get_top_links_with_headers()
     #link_counts_with_headers_and_texts = add_texts_to_links(top_tweets_with_headers, link_tweets)

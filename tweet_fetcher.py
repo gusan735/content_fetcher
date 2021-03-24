@@ -31,7 +31,7 @@ def get_start_time():
     registry_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "resources", "registry.json")
     with open(registry_file_path) as registry_file:
         registry = json.load(registry_file)
-        last_tweet_search = datetime.strptime(registry["last_tweet_search"], '%Y-%m-%dT%H:%M:%S.%fZ') - timedelta(minutes=15)
+        last_tweet_search = datetime.strptime(registry["last_tweet_search"], '%Y-%m-%dT%H:%M:%S.%fZ') - timedelta(minutes=1)
         return last_tweet_search.isoformat("T") + "Z"
     """
     start_date = current_date - timedelta(hours = HOURS_BACK_IN_TIME)
@@ -60,6 +60,14 @@ def add_medias_to_query_string():
 
 
 def create_url():
+    #TODO:
+    #declare tweet_dict
+    #While medias_list is not empty:
+        #remove first 10 medias from list
+        #fetch all tweets with those medias to query
+        #save results to dict
+    #return dict
+
     query = "-is:retweet -is:quote ({})".format(add_medias_to_query_string())
     tweet_fields = "author_id,created_at,entities,text,withheld"
     tweet_mode = "extended"
@@ -138,3 +146,5 @@ def fetch_news_tweets():
     set_last_tweet_search(datetime.utcnow())
     
     return news_links
+
+create_url()
