@@ -55,12 +55,12 @@ def create_news_tweet(tweet_id, news_tweet):
     created_at = news_tweet["created_at"]
     urls = news_tweet["urls"]
 
-    i = 1
+    i = 
     for url in urls:
         conn = create_connection(db_path)
-        fields_to_add = (tweet_id + "_"+str(i), tweet_text, author_id, created_at, url);
-        sql = ''' INSERT INTO news_tweets(Id,Tweet_text,Author_id,Tweet_time,Link)
-                VALUES(?,?,?,?,?) '''
+        fields_to_add = (tweet_id + "_"+str(i), tweet_text, author_id, created_at, url, url);
+        sql = ''' INSERT INTO news_tweets(Id,Tweet_text,Author_id,Tweet_time,Link, header)
+                VALUES(?,?,?,?,?,?) '''
         i+=1
         cur = conn.cursor()
         try:

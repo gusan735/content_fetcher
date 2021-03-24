@@ -126,17 +126,17 @@ def fetch_links_to_db():
 
 def get_top_links_with_headers():
    # link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=10)
-    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=N_LINKS_TO_PRINT)
-    link_counts_with_headers = add_headers_to_links(link_counts, N_LINKS_TO_PRINT)
+    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=N_LINKS_TO_DB)
+    link_counts_with_headers = add_headers_to_links(link_counts, N_LINKS_TO_DB)
     return link_counts_with_headers
 
 def add_headers_to_db(links_with_headers):
     for link in links_with_headers:
         db_broker.add_headers_to_news_tweet(link)
 
-def get_top_links_with_random_texts(n_tweets):
-    link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=N_LINKS_TO_PRINT)
-    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=N_LINKS_TO_PRINT)
+def get_top_links_with_random_texts(n_tweets, hours_back):
+    link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=hours_back, amount=N_LINKS_TO_PRINT)
+    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=hours_back, amount=N_LINKS_TO_PRINT)
     links_with_texts = add_texts_to_links_2(link_counts, link_tweets)
 
     output = []
