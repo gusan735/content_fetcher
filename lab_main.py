@@ -15,7 +15,6 @@ import tweet_fetcher
 config = configparser.RawConfigParser()
 config.read('/Users/gustavandre/Desktop/Projekt/config.ini') 
 REQUEST_LIMIT = int(config.get('TWITTER', 'REQUEST_LIMIT'))
-HOURS_BACK_IN_TIME = int(config.get('TWITTER', 'HOURS_BACK_IN_TIME')) + 1
 N_LINKS_TO_PRINT = int(config.get('TWITTER', 'N_LINKS_TO_PRINT'))
 MAX_RESULTS = int(config.get('TWITTER', 'MAX_RESULTS'))
 MEDIAS = json.loads(config.get('TWITTER', 'MEDIAS'))
@@ -38,6 +37,9 @@ def add_headers_to_links(sorted_news_links, amount):
     for obj in list(sorted_news_links):
         link = obj["Link"]
         count = obj["Count"]
+        header = obj["header"]
+        if (header!=link):
+            continue
         if (counter > amount):
             break
         header = web_scraper.get_article_heading(link)
@@ -51,17 +53,14 @@ def add_headers_to_links(sorted_news_links, amount):
 
 #Adding top n tweets of the given period to DB
 
-def add_links_to_db(n, news_links, sorted_link_counts):
+def add_links_to_db(news_links, sorted_link_counts):
     counter = 0
     #Adding only top n tweets to db
     for link in sorted_link_counts:
-        if counter > n:
-            break
         for id in news_links:
             for url in news_links[id]["urls"]:
                 if (url == link):
                     db_broker.create_news_tweet(id, news_links[id])
-        counter += 1
 
 def count_links(link_dicts):
     link_counts = {}
@@ -119,14 +118,15 @@ def fetch_links_to_db():
     print("LINKS PROCESSED TO DICT")
     link_counts = count_links(news_links)
     sorted_link_counts= {k: v for k, v in sorted(link_counts.items(), key=lambda item: item[1], reverse=True)}
-    add_links_to_db(N_LINKS_TO_DB, news_links, sorted_link_counts)
+    add_links_to_db(news_links, sorted_link_counts)
+    print("LINKS ADDED TO DB")
     headers = get_top_links_with_headers()
     add_headers_to_db(headers)
-    print("LINKS ADDED TO DB WITH HEADERS")
+    print("HEADERS ADDED TO TOP " + str(N_LINKS_TO_DB) + " AND UPDATED IN DB.")
 
 def get_top_links_with_headers():
    # link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=10)
-    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=12, amount=N_LINKS_TO_DB)
+    link_counts = db_broker.fetch_top_news_count_from_db(hours_back=24, amount=N_LINKS_TO_DB)
     link_counts_with_headers = add_headers_to_links(link_counts, N_LINKS_TO_DB)
     return link_counts_with_headers
 
@@ -157,10 +157,11 @@ def get_top_links_with_random_texts(n_tweets, hours_back):
 
 def main():
     #TODO: Clean this shit up...
-    #schedule.every(20).minutes.do(fetch_links_to_db)
-    #while True:
-    #    schedule.run_pending()
     fetch_links_to_db()
+    schedule.every(20).minutes.do(fetch_links_to_db)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
     #link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=12, amount=20)
     #top_tweets_with_headers = get_top_links_with_headers()
     #link_counts_with_headers_and_texts = add_texts_to_links(top_tweets_with_headers, link_tweets)

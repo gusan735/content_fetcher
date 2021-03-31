@@ -60,13 +60,6 @@ def add_medias_to_query_string():
 
 
 def create_url():
-    #TODO:
-    #declare tweet_dict
-    #While medias_list is not empty:
-        #remove first 10 medias from list
-        #fetch all tweets with those medias to query
-        #save results to dict
-    #return dict
 
     query = "-is:retweet -is:quote ({})".format(add_medias_to_query_string())
     tweet_fields = "author_id,created_at,entities,text,withheld"
@@ -89,7 +82,7 @@ def add_links_to_dict(link_dicts, json_response):
         if "urls" in entities:
             for url in entities["urls"]:
                 #Some links to DN will give 2 urls where one is real and the other one is just http://DN.SE So this is not needed.
-                if (url["expanded_url"] == 'http://DN.SE'):
+                if (str(url["expanded_url"]).startswith('http://')):
                     continue
                 if not (has_author_tweeted_link(url["expanded_url"], author, link_dicts)):
                     urls.append(url["expanded_url"])

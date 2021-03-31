@@ -25,9 +25,9 @@ def write_data_to_csv():
 
 def create_police_event(event):
     conn = create_connection(db_path)
-    event_to_add = (event['id'], event['name'], event['summary'], event['type'], event['datetime'], event['location']['gps'], event['location']['name']);
-    sql = ''' INSERT INTO police_events(Id,Name,Summary,Type,Datetime,Gps,Location)
-              VALUES(?,?,?,?,?,?,?) '''
+    event_to_add = (event['id'], event['name'], event['summary'], event['type'], event['datetime'], event['location']['gps'], event['location']['name'], event['url']);
+    sql = ''' INSERT INTO police_events(Id,Name,Summary,Type,Datetime,Gps,Location, Link)
+              VALUES(?,?,?,?,?,?,?, ?) '''
     cur = conn.cursor()
     try:
         cur.execute(sql, event_to_add)
@@ -36,18 +36,6 @@ def create_police_event(event):
     conn.commit()
     return cur.lastrowid
 
-def create_police_event(event):
-    conn = create_connection(db_path)
-    event_to_add = (event['id'], event['name'], event['summary'], event['type'], event['datetime'], event['location']['gps'], event['location']['name']);
-    sql = ''' INSERT INTO police_events(Id,Name,Summary,Type,Datetime,Gps,Location)
-              VALUES(?,?,?,?,?,?,?) '''
-    cur = conn.cursor()
-    try:
-        cur.execute(sql, event_to_add)
-    except sqlite3.IntegrityError:
-        return cur.lastrowid
-    conn.commit()
-    return cur.lastrowid
 
 def create_news_tweet(tweet_id, news_tweet):
     tweet_text = news_tweet["text"]
@@ -85,23 +73,6 @@ def add_headers_to_news_tweet(link_with_header):
     cur.execute(sql, fields_to_add)
     conn.commit()
 
-"""
-    output = []
-    counter = 1
-    for obj in list(sorted_news_links):
-        link = obj["Link"]
-        count = obj["Count"]
-        if (counter > amount):
-            break
-        header = web_scraper.get_article_heading(link)
-        link_count_with_header = {}
-        link_count_with_header["header"] = header
-        link_count_with_header["link"] = link
-        link_count_with_header["count"] = count
-        output.append(link_count_with_header)
-        counter+=1
-    return output
-"""
 
 
 #Fetches the tweet objects that includes the mest popular news from hours_back in time.
@@ -112,7 +83,7 @@ def fetch_top_news_tweets_from_db(hours_back, amount):
             WHERE Link in 
 	        (SELECT Link
             FROM news_tweets
-            WHERE Tweet_time > datetime('now', '-{} hour')
+            WHERE datetime(Tweet_time) > datetime('now', '-{} hour')
             GROUP BY Link
             ORDER BY COUNT(DISTINCT Author_id) DESC
 	        LIMIT {})""").format(hours_back, amount);
@@ -124,12 +95,13 @@ def fetch_top_news_tweets_from_db(hours_back, amount):
     rows = [dict(row) for row in cur.fetchall()]
     return rows
 
+
 #Fetches the tweet counts for the most popular news from hours_back in time.
 #Does not allow duplicate author_id and link.
 def fetch_top_news_count_from_db(hours_back, amount):
     sql = ("""SELECT Link, header, COUNT(DISTINCT Author_id) as Count
     FROM news_tweets
-    WHERE Tweet_time > datetime('now', '-{} hour')
+    WHERE datetime(Tweet_time) > datetime('now', '-{} hour')
     GROUP BY Link
     ORDER BY COUNT(DISTINCT Author_id) DESC
     LIMIT {}""").format(hours_back, amount);
