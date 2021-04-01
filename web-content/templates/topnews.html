@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>{% block title %} Hetaste nyheterna på Twitter {% endblock %}</h1>
-    <button id="24h_link" type="button" onclick="location.href='{{ url_for('index_24h')}}'" class="btn btn-outline-primary">Senaste 24 timmarna</button>
+    <button id="24h_link" type="button" onclick="location.href='{{ url_for('topnews_24h')}}'" class="btn btn-outline-primary">Senaste 24 timmarna</button>
     <a>&nbsp</a>
-    <button id="48h_link" type="button" onclick="location.href='{{ url_for('index_48h')}}'" class="btn btn-outline-primary">Senaste 48 timmarna</button>
+    <button id="48h_link" type="button" onclick="location.href='{{ url_for('topnews_48h')}}'" class="btn btn-outline-primary">Senaste 48 timmarna</button>
     <a>&nbsp</a>
-    <button id="7d_link" type="button" onclick="location.href='{{ url_for('index_7d')}}'" class="btn btn-outline-primary">Senaste 7 dagarna</button>
+    <button id="7d_link" type="button" onclick="location.href='{{ url_for('topnews_7d')}}'" class="btn btn-outline-primary">Senaste 7 dagarna</button>
 
     <a>&nbsp</a>
     <br>
