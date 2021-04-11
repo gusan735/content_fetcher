@@ -10,8 +10,6 @@ import csv
 import json 
 
 #VARS
-
-
 def create_connection(db_file):
     conn = None
     try:
@@ -128,23 +126,27 @@ def update_police_event(event):
 
 #Fetches the tweet objects that includes the mest popular news from hours_back in time.
 #Does not allow duplicate author_id and link.
-def fetch_crimes_from_db(days_back, limit):
+def fetch_interesting_crimes_from_db(days_back, limit):
+    #BILBRÄNDER
     sql = ("""SELECT * FROM police_events
     WHERE (Summary LIKE '%Bilbrand%') OR (Summary LIKE '% Bil %' AND  Summary LIKE  '%Brand%')  
-    AND datetime(Datetime) > datetime('now', '-{day} day')""".format(days_back)
+    AND datetime(Datetime) > datetime('now', '-{} day')""".format(days_back)
     +
+    #RÅN
     """
     UNION
     SELECT *FROM police_events
     WHERE (Type = 'Rån' )
     AND datetime(Datetime) > datetime('now', '-{} day')""".format(days_back)
     +
+    #BOMBER OCH SPRÄNGNINGAR
     """
     UNION
     SELECT * FROM police_events
     WHERE (Summary = 'bomb' OR Summary LIKE '%spräng%' OR Summary LIKE '%deton%' OR Type LIKE '%Detonation%')
     AND datetime(Datetime) > datetime('now', '-{} day')""".format(days_back)
     +
+    #SKOTTLOSSNINGAR
     """
     UNION
     SELECT * FROM police_events
@@ -152,6 +154,7 @@ def fetch_crimes_from_db(days_back, limit):
     AND datetime(Datetime) > datetime('now', '-{} day')
     """.format(days_back)
     +
+    ###VÅLDTÄKTER 
     """
     UNION
     SELECT * FROM police_events

@@ -1,5 +1,6 @@
 import flask
 import lab_main
+from resources import db_broker
 from flask import request, Flask, render_template, redirect, url_for
 
 TEMPLATE_DIR = "web-content/templates"
@@ -11,6 +12,11 @@ def get_top_news():
 def get_top_news_with_random_texts(n_tweets, hours_back):
     return lab_main.get_top_links_with_random_texts(n_tweets, hours_back)
 
+def get_interesting_cimes(days_back, limit):
+    return db_broker.fetch_interesting_crimes_from_db(days_back, limit)
+
+
+###ROUTING###
 @app.route('/')
 def index():
     return redirect(url_for('topnews_24h'))
@@ -34,7 +40,8 @@ def topnews_7d():
 
 @app.route('/crimestats')
 def crimestats():
-    return render_template('crimestats.html')
+    interesting_crimes = get_interesting_cimes(60, 500)
+    return render_template('crimestats.html', crimes = interesting_crimes)
 
 
 
