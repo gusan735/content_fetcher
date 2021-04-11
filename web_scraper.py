@@ -127,6 +127,7 @@ def get_police_details(police_url):
     details_body = soup.find_all('div', class_='text-body editorial-html')
     for details in details_body:
         details = details.text + "\r" 
-    return details
+    print("Url: " + police_url + " has been updated with details: " + details)
+    return str(details)
 
 

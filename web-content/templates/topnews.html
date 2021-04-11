@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <h1>{% block title %} Hetaste nyheterna på Twitter {% endblock %}</h1>
     <button id="24h_link" type="button" onclick="location.href='{{ url_for('topnews_24h')}}'" class="btn btn-outline-primary">Senaste 24 timmarna</button>
     <a>&nbsp</a>
@@ -15,13 +16,12 @@
         <span class="badge badge-primary">{{ link['link'] }}</span>
         <br>
         <br>
-        <button data-toggle="collapse" data-target="#texts{{loop.index}}">Visa random tweets</button>
+        <button data-toggle="collapse" data-target="#texts{{loop.index}}">Reaktioner</button>
         <br>
         <div id="texts{{loop.index}}" class="collapse">
+            <br>
             {%for text in link['texts']%}
-            <a>"{{text}}"</a>
-            <br>
-            <br>
+            <p class="sample_tweet"> '{{text}}'</p>
             {% endfor %}
         </div>
     <hr>

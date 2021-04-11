@@ -29,6 +29,7 @@ def main():
     for event in recent_events:
         event = fix_police_datetime(event)
         db_broker.create_police_event(event)
+    db_broker.fetch_police_details_in_db()
 
 
 def fix_police_datetime(event):
