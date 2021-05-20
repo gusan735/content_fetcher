@@ -6,7 +6,7 @@ Exempel på content jag vill visa på sidan:
 * Vilka trender är aktuella just nu på relevanta delar av reddit/flashback?
 * Det ska gå att filtrera, söka och visualisera inrapporterade polishändelser på ett smidigt sätt.
 * Vilket content finns aktuellt just nu som är associerat till de <b>samhällsprofiler</b> jag är intresserad av? Finns många sociala plattformar att navigera bland. Stort värde i att aggregera data per profil. Uppenbart att det är namnen som drar trafik och intresse oavsett om det är pod/youtube/facebook etc.
-* Visualisera ekonomiska/demografiska/politiska eller i övrigt samhällsrelaterade trender som går att mäta över tiden. Hur har ekonomin i min kommun utvecklats på sistone?
+* Visualisera ekonomiska/demografiska/politiska eller i övrigt samhällsrelaterade trender som går att mäta över tiden. Hur har ekonomin i min kommun utvecklats på sistone? Hur har skolorna utvecklats? Brottsligheten? Finns massa mätbara trender som kan tillgängliggöras på bättre sätt än idag.
 
 Se Issues för konkreta exempel för vad som ligger i pipen. Denna iteration och detta repo kommer att arkiveras inom kort då jag börjat skissa på en ny approach med mer genomtänkt design och metod. Issues och visionen som helhet följer lyckligtvis med!
 
