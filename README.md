@@ -1,5 +1,5 @@
 <h1>Introduktion</h1>
-Startpunkten på ett webbtjänst vars syfte är att på ett datadrivet och lättillgängligt sätt visa det content jag är intresserad av på fritiden. Grundbultarna är ett antal python-skript som vuxit fram organiskt i en mapp på datorn, men även en vision/idé som jag har funderat på under en tid. 
+Startpunkten på ett webbtjänst vars syfte är att på ett datadrivet, automatiserat och lättillgängligt sätt visa det content jag är intresserad av på fritiden. Grundbultarna är ett antal python-skript som vuxit fram organiskt i en mapp på datorn, men även en vision/idé som jag har funderat på under en tid. 
 
 Exempel på content jag vill visa på sidan:
 * Nyheter! Vilka nyheter diskuteras mest just nu i sociala medier? Hur reagerar och kommenterar folk på dessa nyheter, i allmänhet?
@@ -28,6 +28,11 @@ Hela repot är en sandlåda ala 'quick and dirty'-experimentering rakt igenom. D
 3. Data sparas i ett gäng ad hoc-skapade tabeller i en SQLite-fil (<b>project.db</b>)
 
 4. Content presenteras till användare i html/css-format med hjälp av flask-hostad web service (<b>app.py</b>).
+
 <h2>Screens</h2>
+<img width="1427" alt="Screenshot 2021-05-20 at 05 09 09" src="https://user-images.githubusercontent.com/38020265/118919780-79a20a80-b935-11eb-924c-7d669b265e53.png">
+<img width="826" alt="Screenshot 2021-05-20 at 05 08 38" src="https://user-images.githubusercontent.com/38020265/118919784-7c9cfb00-b935-11eb-9ece-0e9cc618da03.png">
+<img width="1435" alt="Screenshot 2021-05-20 at 00 20 25" src="https://user-images.githubusercontent.com/38020265/118919945-bc63e280-b935-11eb-9488-af41bc15bf00.png">
+<img width="1436" alt="Screenshot 2021-05-20 at 00 21 05" src="https://user-images.githubusercontent.com/38020265/118919951-bf5ed300-b935-11eb-9144-fc4c94794638.png">
 
 
