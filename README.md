@@ -16,14 +16,18 @@ Hela repot är en sandlåda ala 'quick and dirty'-experimentering rakt igenom. D
 
 <h2>Algoritmen</h2>
 1. Enligt schema, hämta regelbundet data från följande källor:
-  * Twitters REST-API: <b>tweet_fetcher.py</b>
-  * Öppna data från polisen.se (inrapporterade polishändelser). <b>fetch_events.py</b>
+
+
+*  Twitters REST-API: <b>tweet_fetcher.py</b>.
+
+
+*  Öppna data från polisen.se (inrapporterade polishändelser: <b>fetch_events.py</b>.
   
 2. Schedulering, import och processing av data hanteras av funktioner i <b>lab_main.py</b>. Tar även hjälp av <b>web_scraper.py</b> för att hämta kompletterande data som inte finns i tillgängliga REST-interface.
 
-3. Data sparas i ett gäng ad hoc-skapade tabeller i en sqlite-fil (project.db)
+3. Data sparas i ett gäng ad hoc-skapade tabeller i en SQLite-fil (<b>project.db</b>)
 
-4. Content presenteras till användare i html/css-format med hjälp av flask-hostad web service.
+4. Content presenteras till användare i html/css-format med hjälp av flask-hostad web service (<b>app.py</b>).
 <h2>Screens</h2>
 
 
