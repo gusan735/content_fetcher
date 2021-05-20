@@ -1,14 +1,31 @@
 {% extends 'base.html' %}
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"> </script>
+
 {% block content %}
+
     <h1>{% block title %} Aktuella brott {% endblock %}</h1>
-    <div class="input-group">
-        <div class="form-outline">
-          <input type="search" id="form1" class="form-control" >
-          <label class="form-label" for="form1">Search</label>
-        </div>
+    <p>Visar inrapporterade brott från polisen</p>
+    <br>
+    <div class="form-outline">
+        <input type="text" id="form1" class="form-control"/>
+        <label class="form-label" for="form1">Filtrera</label>
+      </div>
+      <br>
+      <div class="dropdown">
+        <button
+          class="btn btn-default dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-mdb-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Kommun
+        </button>
+        <br>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="#">Strängnäs</a></li>
+          <li><a class="dropdown-item" href="#">Sollentuna</a></li>
+          <li><a class="dropdown-item" href="#">Stockholm</a></li>
+        </ul>
       </div>
       <br>
     <table id = "crime_table" class="table">
@@ -30,7 +47,7 @@
         <td>{{crime['Summary']}}</td>
         <td>{{crime['Details']}}</td>
         <td>{{crime['Location']}}</td>
-        <td>{{crime['Link']}}</td>
+        <td><a href="{{crime['Link']}}">Länk</a></td>
         </tr>
         {% endfor %}
         <!------

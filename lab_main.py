@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import web_scraper
 from resources import db_broker
 import tweet_fetcher
+from police_events import src/fetch_recent_events as fetch_recent_events
 
 
 #GLOBAL 
@@ -20,8 +21,6 @@ MAX_RESULTS = int(config.get('TWITTER', 'MAX_RESULTS'))
 MEDIAS = json.loads(config.get('TWITTER', 'MEDIAS'))
 N_LINKS_TO_DB = int(config.get('TWITTER', 'N_LINKS_TO_DB'))
 
-# To set your enviornment variables in your terminal run the following line:
-# export 'BEARER_TOKEN'='<your_bearer_token>'
 def print_links(links_with_headers):
     counter = 0
     for obj in links_with_headers:
@@ -64,7 +63,6 @@ def add_links_to_db(news_links, sorted_link_counts):
 
 def count_links(link_dicts):
     link_counts = {}
-
     for id in link_dicts:
         for url in link_dicts[id]["urls"]:
             if (url not in link_counts):
@@ -74,14 +72,12 @@ def count_links(link_dicts):
     return link_counts
 
 def print_random_tweets(n_tweets, link_tweets_with_texts):
-    #Loop thrugh each value link link_texts and print n random tweets frorm it
     i = 1
     for link in link_tweets_with_texts:
         texts = link_tweets_with_texts[link]["texts"]
         header = link_tweets_with_texts[link]["header"]
         print("------------")
         print ("\n" + str(i) +": "+ header +": " + link)
-
         random_tweets = random.sample(texts, n_tweets)
         for tweet in random_tweets:
             if (len(tweet) > 5):
@@ -90,7 +86,8 @@ def print_random_tweets(n_tweets, link_tweets_with_texts):
         i += 1
 
 
-def add_texts_to_links_2(link_counts, link_tweets):
+#TODO: Clean up, break out to smaller functions
+def add_texts_to_links(link_counts, link_tweets):
     #Create a link dict with texts added for each link:
     link_outputs = {}
     for obj1 in link_counts:
@@ -135,9 +132,10 @@ def add_headers_to_db(links_with_headers):
         db_broker.add_headers_to_news_tweet(link)
 
 def get_top_links_with_random_texts(n_tweets, hours_back):
+    #TODO: below code is really ugly but works for now. clean up!
     link_tweets = db_broker.fetch_top_news_tweets_from_db(hours_back=hours_back, amount=N_LINKS_TO_PRINT)
     link_counts = db_broker.fetch_top_news_count_from_db(hours_back=hours_back, amount=N_LINKS_TO_PRINT)
-    links_with_texts = add_texts_to_links_2(link_counts, link_tweets)
+    links_with_texts = add_texts_to_links(link_counts, link_tweets)
 
     output = []
 
@@ -156,9 +154,14 @@ def get_top_links_with_random_texts(n_tweets, hours_back):
     return output
 
 def main():
-    #TODO: Clean this shit up...
+    #TODO: Clean this up...
+
+
+    ###SCHEDULING###
     fetch_links_to_db()
     schedule.every(20).minutes.do(fetch_links_to_db)
+    schedule.every(10).minutes.do(fetch_recent_events)
+
     while True:
         schedule.run_pending()
         time.sleep(1)

@@ -39,8 +39,9 @@ def get_article_heading(url):
     except Exception as e:
         print("Error. Returning url: " + url)
         return url
+
 ######TWITTER EVENTS###########
-#EXTERNAL FUNCTIONS
+
 def get_gp_heading(url):
     soup = get_html(url)
     elements = soup.find_all('h1', class_='c-article__heading')

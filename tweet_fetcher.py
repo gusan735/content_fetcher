@@ -50,7 +50,6 @@ def set_last_tweet_search(datetime):
 
 def add_medias_to_query_string():
     medias = json.loads(config.get('TWITTER', 'MEDIAS'))
-
     url_string = ""
     for media in medias:
         url_string = url_string + "url:\"{}\" OR ".format(media)
@@ -60,7 +59,6 @@ def add_medias_to_query_string():
 
 
 def create_url():
-
     query = "-is:retweet -is:quote ({})".format(add_medias_to_query_string())
     tweet_fields = "author_id,created_at,entities,text,withheld"
     tweet_mode = "extended"
@@ -81,7 +79,6 @@ def add_links_to_dict(link_dicts, json_response):
         urls = []
         if "urls" in entities:
             for url in entities["urls"]:
-                #Some links to DN will give 2 urls where one is real and the other one is just http://DN.SE So this is not needed.
                 if (str(url["expanded_url"]).startswith('http://')):
                     continue
                 if not (has_author_tweeted_link(url["expanded_url"], author, link_dicts)):
