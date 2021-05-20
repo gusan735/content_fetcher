@@ -1,5 +1,5 @@
 <h1>Introduktion</h1>
-Startpunkten på ett webbtjänst vars syfte är att på ett datadrivet, automatiserat och lättillgängligt sätt visa det content jag är intresserad av på fritiden. Grundbultarna är ett antal python-skript som vuxit fram organiskt i en mapp på datorn, men även en vision/idé som jag har funderat på under en tid. 
+Starten på en resa. Målsättning: en webbtjänst med syftet att på ett datadrivet, automatiserat och lättillgängligt sätt visa det content jag är intresserad av på fritiden. Grundbultarna är ett antal python-skript som vuxit fram organiskt i en mapp på datorn, men även en vision/idé som jag har funderat på under en tid. 
 
 Exempel på content jag vill visa på sidan:
 * Nyheter! Vilka nyheter diskuteras mest just nu i sociala medier? Hur reagerar och kommenterar folk på dessa nyheter, i allmänhet?
