@@ -1,5 +1,6 @@
 <h1>Introduktion</h1>
-Början på en resa. Målsättning: en webbtjänst med ett syfte. Att på ett datadrivet, automatiserat och lättillgängligt sätt visa det content du är intresserad av. Låtsas att stora näthjältarna inte är annat än stora datakällor -> hur skulle du gö tillväga för att bygga en bättre upplevelse? Grundbultarna är ett antal python-skript som vuxit fram organiskt i en mapp på datorn, men även en vision/idé som jag har funderat på under en tid. 
+Början på en resa. Målsättning: en webbtjänst med ett syfte. Att på ett datadrivet, automatiserat och lättillgängligt sätt visa det content du är intresserad av. Låtsas att stora näthjältarna inte är annat än stora datakällor -> hur skulle du gå tillväga för att bygga en bättre upplevelse? Let's find out!
+Grundbultarna är ett antal python-skript som vuxit fram organiskt i en mapp på datorn, men även en vision/idé som jag har funderat på under en tid. 
 
 Exempel på content jag vill visa på sidan:
 * Nyheter! Vilka nyheter diskuteras mest just nu i sociala medier? Hur reagerar och kommenterar folk på dessa nyheter, i allmänhet?
