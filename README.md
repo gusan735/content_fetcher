@@ -1,5 +1,7 @@
 <h1>Introduktion</h1>
 Början på en resa. Målsättning: en webbtjänst med ett syfte. Att på ett datadrivet, automatiserat och lättillgängligt sätt visa det content jag är intresserad av. Låtsas att stora nätjättarna inte är annat än stora datakällor -> hur skulle du gå tillväga för att bygga en bättre upplevelse? Let's find out!
+
+<h2>Beskrivning</h2>
 Grundbultarna är ett antal python-skript som vuxit fram organiskt i en mapp på datorn, men även en vision/idé som jag har funderat på under en tid. 
 
 Exempel på content jag vill visa på sidan:
