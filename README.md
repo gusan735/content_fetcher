@@ -15,9 +15,9 @@ The code is really hacky and quite experimentative, would definately benefit fro
   
 2. Scheduling, import and processing of data hare handled in <b>lab_main.py</b>. It also uses <b>web_scraper.py</b> to gather complementary data which are not available in the REST-APIs..
 
-3. Data are saved in a couple of ad hoc-generated tables in a SQLite-fil e(<b>project.db</b>)
+3. Data are saved in a couple of ad hoc-generated tables in a SQLite-file(<b>project.db</b>)
 
-4. Content are presented to users in html/css with the help of alask-hostad web service (<b>app.py</b>).
+4. Content are presented to users in html/css with the help of flask-hostad web service (<b>app.py</b>).
 
 <h2>Screens</h2>
 <img width="1427" alt="Screenshot 2021-05-20 at 05 09 09" src="https://user-images.githubusercontent.com/38020265/118919780-79a20a80-b935-11eb-924c-7d669b265e53.png">
