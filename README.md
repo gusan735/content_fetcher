@@ -1,36 +1,23 @@
-<h1>Introduktion</h1>
-Början på en resa. Målsättning: en webbtjänst med ett syfte. Att på ett datadrivet, automatiserat och lättillgängligt sätt visa det content jag är intresserad av. Låtsas att stora nätjättarna inte är annat än stora datakällor -> hur skulle du gå tillväga för att bygga en bättre upplevelse? Let's find out!
+<h1>Introduction</h1>
+Some hacky python-code for playing with the Twitter API/Swedish police API and analyzing data I'm interested in.
 
-<h2>Beskrivning</h2>
-Grundbultarna är ett antal python-skript som vuxit fram organiskt i en mapp på datorn, men även en vision/idé som jag har funderat på under en tid. 
+<h2>Description</h2>
+The foundatation are a couple of python scripts that grew organically on my laptop, that I later threw together into a web project. The overall vision is to gather and aggregate content from a lot of sources I'm interested in (e.g. Twitter, Youtube, Police events) and then creating a web interface which makes it easy to search and analyze the data, so I don't have to browse around the web manually and do it the old boring way.
 
-Exempel på content jag vill visa på sidan:
-* Nyheter! Vilka nyheter diskuteras mest just nu i sociala medier? Hur reagerar och kommenterar folk på dessa nyheter, i allmänhet?
-* Vilka samhällsrelaterade trender är aktuella just nu? Börja med att analysera reddit/flashback för att hitta sådana mönster.
-* Det ska gå att filtrera, söka och visualisera inrapporterade polishändelser på ett smidigt sätt.
-* Vilket content finns aktuellt just nu som är associerat till de <b>samhällsprofiler</b> jag är intresserad av? Finns många sociala plattformar att navigera bland. Stort värde i att aggregera data per profil. Uppenbart att det är namnen som drar trafik och intresse oavsett om det är pod/youtube/facebook etc.
-* Visualisera ekonomiska/demografiska/politiska eller i övrigt samhällsrelaterade trender som går att mäta över tiden. Hur har ekonomin i min kommun utvecklats på sistone? Hur har skolorna utvecklats? Brottsligheten? Finns massa mätbara trender som kan tillgängliggöras på bättre sätt än idag.
+The code is really hacky and quite experimentative, would definately benefit from more OOP concepts, structure and cleanup. This is more of a playground to test ideas :)
 
-Se Issues för konkreta exempel för vad som ligger i pipen. Denna iteration och detta repo kommer att arkiveras inom kort då jag börjat skissa på en ny approach med mer genomtänkt design och metod. Issues och visionen som helhet följer lyckligtvis med!
+<h2>The algorithm</h2>
+1. According to a schedule, gather data from the following sources:
 
-<h2>Omfattning</h2>
-Hela repot är en sandlåda ala 'quick and dirty'-experimentering rakt igenom. Det finns uppenbara brister i koden över flera dimensioner - vilket jag är medveten om. Det primära syftet har inte varit att skriva snygg, skalbar och vettig kod som faktiskt ska användas i produktion - utan att labba runt i någon form av kreativ process. Koden har byggts på organiskt med tiden, utan någon jättekonkret idé från början. Själva idén har formats under processen och kommer att gestaltas på ett mer genomtänkt sätt i nästa version.
+*  Twitter REST-API: <b>tweet_fetcher.py</b>.
 
-
-<h2>Algoritmen</h2>
-1. Enligt schema, hämta regelbundet data från följande källor:
-
-
-*  Twitters REST-API: <b>tweet_fetcher.py</b>.
-
-
-*  Öppna data från polisen.se (inrapporterade polishändelser: <b>fetch_events.py</b>.
+*  Open data from polisen.se (reported police events: <b>fetch_events.py</b>.
   
-2. Schedulering, import och processing av data hanteras av funktioner i <b>lab_main.py</b>. Tar även hjälp av <b>web_scraper.py</b> för att hämta kompletterande data som inte finns i tillgängliga REST-interface.
+2. Scheduling, import and processing of data hare handled in <b>lab_main.py</b>. It also uses <b>web_scraper.py</b> to gather complementary data which are not available in the REST-APIs..
 
-3. Data sparas i ett gäng ad hoc-skapade tabeller i en SQLite-fil (<b>project.db</b>)
+3. Data are saved in a couple of ad hoc-generated tables in a SQLite-fil e(<b>project.db</b>)
 
-4. Content presenteras till användare i html/css-format med hjälp av flask-hostad web service (<b>app.py</b>).
+4. Content are presented to users in html/css with the help of alask-hostad web service (<b>app.py</b>).
 
 <h2>Screens</h2>
 <img width="1427" alt="Screenshot 2021-05-20 at 05 09 09" src="https://user-images.githubusercontent.com/38020265/118919780-79a20a80-b935-11eb-924c-7d669b265e53.png">
