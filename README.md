@@ -2,7 +2,7 @@
 Some hacky python-code for playing with the Twitter API/Swedish police API and analyzing data I'm interested in.
 
 <h2>Description</h2>
-The foundatation are a couple of python scripts that grew organically on my laptop, that I later threw together into a web project. The overall vision is to gather and aggregate content from a lot of sources I'm interested in (e.g. Twitter, Youtube, Police events) and then creating a web interface which makes it easy to search and analyze the data, so I don't have to browse around the web manually and do it the old boring way.
+The foundation are a couple of python scripts that grew organically on my laptop, that I later threw together into a web project. The overall vision is to gather and aggregate content from a lot of sources I'm interested in (e.g. Twitter, Youtube, Police events) and then creating a web interface which makes it easy to search and analyze the data, so I don't have to browse around the web manually and do it the old boring way.
 
 The code is really hacky and quite experimentative, would definately benefit from more OOP concepts, structure and cleanup. This is more of a playground to test ideas :)
 
